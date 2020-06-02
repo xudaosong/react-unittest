@@ -1,4 +1,3 @@
-import { createContext } from 'react';
 import { observable, action } from 'mobx'
 import { ITodoItem } from "../types";
 import produce from "immer";
@@ -10,15 +9,15 @@ class TodoStore {
     ];
 
     @action toggleTodo = (id: number): void => {
-        console.log(id)
         const index = this.todoList.findIndex((item) => {
             return item.id === id;
         });
-        produce(this.todoList, draftState => {
-            debugger
+        // this.todoList[index].completed = !this.todoList[index].completed;
+        const list = produce(this.todoList, draftState => {
             draftState[index].completed = !draftState[index].completed;
         })
+        console.log(list === this.todoList)
     }
 }
 
-export default createContext(new TodoStore());
+export default new TodoStore();
